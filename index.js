@@ -62,34 +62,25 @@ async function run() {
 
       const result = await allToDoCollection.updateOne(filter, updateQuery);
       console.log("from the last", result)
-
+            res.send(result)
     })
     //   // Get single user role
-    //   app.get('/allToDo/:email', async (req, res) => {
-    //     const email = req.params.email
-    //     console.log(email);
-    //     const query = { email: email }
-    //     const result = await allToDoCollection.findOne(query)
-    //     res.send(result)
-    // })
-    // app.put("/allToDo/:id", async(req, res)=>{
-    //     const id =req.params.id 
-    //     const taskData = req.body
-    //     const filter = {_id : new ObjectId(id)}
-    //     const option ={upsert: true}
-    //     const updateProduct ={
-    //       $set:{
-    //         title:taskData.title,
-    //         description:taskData.description,
-    //         date:taskData.date,
-    //         priority:taskData.priority,
-
-    //       }
-    //     }
-    //     const result = await allToDoCollection.updateOne(filter, updateProduct,option)
-    //     res.send(result)
-    //   })
-
+  // Update Api
+  app.put("/updateTask/:id", async (req, res) => {
+    const data = req.body;
+    const id = req.params.id;
+    const filter = {_id: new ObjectId(id)};
+    const updatedDoc = {
+      $set: {
+        title: data.title,
+        description: data.description,
+        date: data.date,
+        priority: data.priority
+      },
+    };
+    const result = await allToDoCollection.updateOne(filter, updatedDoc);
+    res.send(result)
+  })
 
     //delete
     app.delete("/delete/:id", async (req, res) => {
@@ -98,15 +89,6 @@ async function run() {
       const result = await allToDoCollection.deleteOne(query)
       res.send(result)
     })
-
-
-
-
-
-
-
-
-
 
 
 
